@@ -4,8 +4,8 @@
    SAMPLES — the ONE place to add the concept-ad videos when they exist.
 
    For each sample, fill in ONE of these (leave the others empty):
-     video:  link to an MP4 file, e.g. "https://.../halden-street.mp4"
-             (do not put MP4s in git; host them on Drive/R2/etc.)
+     video:  path to an MP4, e.g. "media/halden.mp4" (720×1280, ~2–3 MB, kept
+             only in the public site repo; the agency repo ignores site/media)
      drive:  the Google Drive file ID from a share link
              https://drive.google.com/file/d/<THIS PART>/view
              (the file must be shared "Anyone with the link – Viewer")
@@ -13,7 +13,7 @@
      poster: a still image (JPG/WebP, ~100 KB) shown before play.
    When video or drive is filled in, the "in production" label disappears
    by itself and the frame becomes a player. "style" picks the poster look
-   (halden / northpine / kettlewren) used while there is no video.
+   (halden / northpine / oxbeck) used while there is no video.
    ===================================================================== */
 const SAMPLES = [
   {
@@ -21,27 +21,27 @@ const SAMPLES = [
     kind: "Presenter ad",
     concept: "A presenter introduces a small-batch roaster.",
     style: "halden",
-    video: "",
+    video: "media/halden.mp4",
     drive: "",
-    poster: ""
+    poster: "media/halden.jpg"
   },
   {
     brand: "Northpine Knitwear",
     kind: "No-dialogue ad",
     concept: "Wool, weather and movement. Text and music only.",
     style: "northpine",
-    video: "",
+    video: "media/northpine.mp4",
     drive: "",
-    poster: ""
+    poster: "media/northpine.jpg"
   },
   {
-    brand: "Kettlewren",
+    brand: "Oxbeck Pottery",
     kind: "Product & gift ad",
     concept: "Hand-glazed mugs, wrapped and given. Hands only.",
-    style: "kettlewren",
-    video: "",
+    style: "oxbeck",
+    video: "media/oxbeck.mp4",
     drive: "",
-    poster: ""
+    poster: "media/oxbeck.jpg"
   }
 ];
 
@@ -80,7 +80,20 @@ const SAMPLES = [
     hero.innerHTML = "";
     SAMPLES.forEach(function (s) {
       const f = el("div", "frame frame--" + s.style);
-      f.appendChild(poster(s, false));
+      if (s.video && !reduceMotion) {
+        const v = document.createElement("video");
+        v.src = s.video;
+        v.muted = true;
+        v.loop = true;
+        v.autoplay = true;
+        v.playsInline = true;
+        v.setAttribute("muted", "");
+        v.setAttribute("aria-hidden", "true");
+        if (s.poster) v.poster = s.poster;
+        f.appendChild(v);
+      } else {
+        f.appendChild(poster(s, false));
+      }
       hero.appendChild(f);
     });
   }

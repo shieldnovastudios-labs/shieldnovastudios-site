@@ -213,14 +213,14 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
   font-size: 8.4cqi; letter-spacing: 0.32em; text-transform: uppercase; color: #e1e9e3;
   line-height: 1.35;
 }
-.frame--kettlewren {
+.frame--oxbeck {
   background: #170d0a;
   --light:
     radial-gradient(40% 30% at 65% 70%, rgba(214, 140, 104, 0.38), transparent 70%),
     radial-gradient(60% 45% at 25% 20%, rgba(102, 48, 32, 0.8), transparent 70%),
     linear-gradient(180deg, #2c1912, #0d0806);
 }
-.frame--kettlewren .poster__brand {
+.frame--oxbeck .poster__brand {
   font-family: var(--serif); font-size: 16cqi; color: #f1e2d8; letter-spacing: 0.02em;
 }
 
