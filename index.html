@@ -125,39 +125,19 @@
       </div>
 
       <div class="social" id="social" aria-labelledby="social-title">
-        <h3 id="social-title" class="social__title reveal">Also: social videos from your photos</h3>
-        <p class="social__intro reveal">Reels and TikToks with on-screen text and licensed music, scheduled as drafts. You press publish.</p>
+        <h3 id="social-title" class="social__title reveal">Also: your social posts, on autopilot</h3>
+        <p class="social__intro reveal">Stop thinking about what to post. Every month we turn your photos into short videos with on-screen text and licensed music, sized for each platform and lined up in your scheduler. You check them once and they go out on their own.</p>
+        <ul class="platforms reveal" aria-label="Every video goes out on">
+          <li>Instagram Reels</li><li>TikTok</li><li>Facebook</li><li>LinkedIn</li>
+        </ul>
 
         <ul class="packs reveal">
-          <li><span class="packs__name">Starter</span><span class="packs__price">$120</span><span class="packs__what">4 videos</span></li>
-          <li><span class="packs__name">Standard</span><span class="packs__price">$220</span><span class="packs__what">8 videos</span></li>
-          <li><span class="packs__name">Advanced</span><span class="packs__price">$300</span><span class="packs__what">12 videos + 2 carousels</span></li>
+          <li><span class="packs__name">Starter</span><span class="packs__price">$120<small>/month</small></span><span class="packs__what">1 video a week, on all 4 platforms</span></li>
+          <li><span class="packs__name">Standard</span><span class="packs__price">$220<small>/month</small></span><span class="packs__what">2 videos a week, on all 4 platforms</span></li>
+          <li><span class="packs__name">Advanced</span><span class="packs__price">$300<small>/month</small></span><span class="packs__what">3 videos a week, on all 4 platforms, plus 2 Instagram &amp; LinkedIn carousels a month</span></li>
         </ul>
+        <p class="packs__terms reveal">Month to month, paid at the start of each month. Cancel anytime before the next one.</p>
 
-        <p class="reels__cap reveal">Made for a real client, an indoor-plant service in Romania. Romanian-language videos; they load from Google Drive when you press play.</p>
-        <ul class="reels reveal" data-reels>
-          <li class="reel">
-            <button class="reel__play" type="button" data-drive="1ZTm7PB9ChqYKIOYfQQjxihFUFthbQPmX" aria-label="Play video: the misting myth (Romanian, loads from Google Drive)">
-              <span class="reel__btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-              <span class="reel__title">The misting myth</span>
-              <span class="reel__meta">Reel · Romanian</span>
-            </button>
-          </li>
-          <li class="reel">
-            <button class="reel__play" type="button" data-drive="1ELF2Fgu4XRLKnhOcG9q8m_rcP8k7zrIR" aria-label="Play video: the lichen wall panel (Romanian, loads from Google Drive)">
-              <span class="reel__btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-              <span class="reel__title">The lichen wall panel</span>
-              <span class="reel__meta">Reel · Romanian</span>
-            </button>
-          </li>
-          <li class="reel">
-            <button class="reel__play" type="button" data-drive="1B7yi1N_fRAKzSs29HwwLiePXOc2fPHI7" aria-label="Play video: plants, kids and pets (Romanian, loads from Google Drive)">
-              <span class="reel__btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-              <span class="reel__title">Plants, kids and pets</span>
-              <span class="reel__meta">TikTok · Romanian</span>
-            </button>
-          </li>
-        </ul>
       </div>
     </section>
 
@@ -194,10 +174,46 @@
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <h2 id="contact-title" class="reveal">Tell us what <span>you sell.</span></h2>
       <p class="reveal">Send a link and one line about the ad. We reply with a fixed quote and a date.</p>
-      <div class="actions reveal">
-        <a class="btn btn--accent" href="#upwork" data-upwork>Get a quote on Upwork</a>
-        <a class="btn btn--line" href="mailto:hello@shieldnovastudios.com?subject=Quote%20for%20an%20AI%20video%20ad">hello@shieldnovastudios.com</a>
-      </div>
+
+      <form class="quote reveal" data-quote action="https://api.web3forms.com/submit" method="POST" novalidate>
+        <input type="hidden" name="access_key" value="">
+        <input type="hidden" name="subject" value="New quote request · shieldnovastudios.com">
+        <input type="hidden" name="from_name" value="ShieldNova Studios website">
+        <input type="checkbox" name="botcheck" class="quote__trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="quote__row">
+          <label class="field">
+            <span>Your name</span>
+            <input name="name" type="text" autocomplete="name" required maxlength="120">
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200">
+          </label>
+        </div>
+        <label class="field">
+          <span>Your store or website</span>
+          <input name="store" type="text" inputmode="url" placeholder="yourstore.com or an Etsy / Shopify link" maxlength="300">
+        </label>
+        <label class="field">
+          <span>What you’d like</span>
+          <select name="interest">
+            <option>Test ad (AI video ad for Meta / TikTok)</option>
+            <option>Social posts · Starter, $120/month</option>
+            <option>Social posts · Standard, $220/month</option>
+            <option>Social posts · Advanced, $300/month</option>
+            <option>Not sure yet</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>What you sell, and what the ad should do</span>
+          <textarea name="message" rows="4" required maxlength="3000"></textarea>
+        </label>
+
+        <button class="btn btn--accent quote__send" type="submit">Send request</button>
+        <p class="quote__status" data-quote-status role="status" aria-live="polite"></p>
+        <p class="quote__alt">Prefer email? Write to <a href="mailto:hello@shieldnovastudios.com?subject=Quote%20for%20an%20AI%20video%20ad">hello@shieldnovastudios.com</a></p>
+      </form>
     </section>
   </main>
 

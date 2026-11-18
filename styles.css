@@ -399,6 +399,10 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 .packs__name { grid-area: name; font-weight: 500; }
 .packs__what { grid-area: what; color: var(--muted); font-size: 0.9375rem; }
 .packs__price { grid-area: price; font: 500 2.25rem/1 var(--serif); font-variant-numeric: lining-nums tabular-nums; }
+.packs__price small { font: 400 0.875rem/1 var(--sans); color: var(--muted); margin-left: 4px; }
+.platforms { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 20px 0 0; padding: 0; }
+.platforms li { padding: 6px 14px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 0.875rem; color: var(--accent-soft); }
+.packs__terms { margin-top: 20px; color: var(--muted); font-size: 0.9375rem; }
 @media (min-width: 760px) {
   .packs { grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
   .packs li { border-bottom: 0; padding: 24px 24px 24px 0; }
@@ -483,6 +487,39 @@ a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px
 .contact p { margin: 24px auto 0; color: var(--muted); max-width: 32rem; font-size: 1.0625rem; }
 .contact .actions { justify-content: center; margin-top: 40px; }
 .contact .btn--line { text-transform: none; }
+
+/* quote form */
+.quote {
+  max-width: 40rem; margin: 48px auto 0;
+  display: grid; gap: 18px;
+  text-align: left;
+}
+.quote__row { display: grid; gap: 18px; }
+@media (min-width: 620px) { .quote__row { grid-template-columns: 1fr 1fr; } }
+.field { display: grid; gap: 8px; }
+.field span { font-size: 0.875rem; color: var(--muted); }
+.field input, .field select, .field textarea {
+  width: 100%;
+  font: 400 1rem/1.4 var(--sans);   /* 16px: stops iOS zooming on focus */
+  color: var(--text);
+  background: var(--bg-raise);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: border-color 200ms ease;
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.field select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
+.field input::placeholder { color: #6f675e; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.field [aria-invalid="true"] { border-color: #e27a5a; }
+.quote__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.quote__send { justify-self: start; min-width: 180px; }
+.quote__send[disabled] { opacity: 0.6; cursor: progress; }
+.contact .quote__status { margin: 0; min-height: 1.6em; max-width: none; font-size: 1rem; color: var(--text); }
+.quote__status.is-error { color: #f0a58c; }
+.contact .quote__alt { margin: 0; max-width: none; font-size: 0.9rem; }
+.quote.is-sent .field, .quote.is-sent .quote__row, .quote.is-sent .quote__send { display: none; }
 
 /* ---------- footer ---------- */
 .site-foot {

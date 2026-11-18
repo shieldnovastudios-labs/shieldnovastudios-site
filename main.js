@@ -45,6 +45,17 @@ const SAMPLES = [
   }
 ];
 
+/* =====================================================================
+   QUOTE_FORM — where the "Send request" form delivers.
+   key: the Web3Forms access key (public by design: it only lets people
+        send messages TO the agency inbox). Empty = the form falls back
+        to opening the visitor's email app, pre-filled.
+   ===================================================================== */
+const QUOTE_FORM = {
+  key: "6685e794-0d16-45df-9d47-6159ea44da35",
+  email: "hello@shieldnovastudios.com"
+};
+
 (function () {
   "use strict";
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -156,29 +167,70 @@ const SAMPLES = [
     });
   }
 
-  /* ---------- client reels: load Google Drive only on press ---------- */
-  document.querySelectorAll("[data-drive]").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      const id = btn.getAttribute("data-drive");
-      const f = document.createElement("iframe");
-      f.src = "https://drive.google.com/file/d/" + encodeURIComponent(id) + "/preview";
-      f.title = btn.querySelector(".reel__title").textContent + " (video from Google Drive)";
-      f.allow = "autoplay; fullscreen";
-      f.allowFullscreen = true;
-      btn.parentNode.replaceChild(f, btn);
-      f.focus();
-    });
-  });
+  /* ---------- quote form ---------- */
+  const form = document.querySelector("[data-quote]");
+  if (form) {
+    const status = form.querySelector("[data-quote-status]");
+    const send = form.querySelector(".quote__send");
+    form.elements.access_key.value = QUOTE_FORM.key;
 
-  /* ---------- Upwork link not set yet ---------- */
-  document.querySelectorAll("[data-upwork]").forEach(function (a) {
-    if (a.getAttribute("href") === "#upwork") {
-      a.addEventListener("click", function (e) {
-        e.preventDefault();
-        window.location.href = "mailto:hello@shieldnovastudios.com?subject=Quote%20for%20an%20AI%20video%20ad";
-      });
+    function say(text, isError) {
+      status.textContent = text;
+      status.classList.toggle("is-error", Boolean(isError));
     }
-  });
+
+    /* No key yet: open the visitor's mail app with everything they typed, so nothing is lost. */
+    function mailFallback() {
+      const f = form.elements;
+      const body = "Name: " + f.name.value + "\nEmail: " + f.email.value + "\nStore: " + f.store.value +
+        "\nInterested in: " + f.interest.value + "\n\n" + f.message.value;
+      window.location.href = "mailto:" + QUOTE_FORM.email + "?subject=" + encodeURIComponent("Quote request") +
+        "&body=" + encodeURIComponent(body);
+      say("Your email app should open with your request filled in. If it doesn’t, write to " + QUOTE_FORM.email + ".");
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      let first = null;
+      ["name", "email", "message"].forEach(function (n) {
+        const input = form.elements[n];
+        const ok = input.value.trim() !== "" && (n !== "email" || input.checkValidity());
+        input.setAttribute("aria-invalid", ok ? "false" : "true");
+        if (!ok && !first) first = input;
+      });
+      if (first) {
+        say(first.name === "email" && first.value.trim() ? "That email address doesn’t look right." : "Please fill in your name, email and a line about what you sell.", true);
+        first.focus();
+        return;
+      }
+      if (form.elements.botcheck.checked) return;   /* spam bot */
+      if (!QUOTE_FORM.key) { mailFallback(); return; }
+
+      send.disabled = true;
+      send.textContent = "Sending…";
+      say("");
+      fetch(form.action, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form)
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok && d.success, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok) throw new Error((res.d && res.d.message) || "not sent");
+          const who = form.elements.email.value;
+          form.classList.add("is-sent");
+          say("Thanks, your request is in. We’ll reply to " + who + " with a quote and a date.");
+          form.reset();
+        })
+        .catch(function () {
+          say("Sorry, it didn’t go through. Please email " + QUOTE_FORM.email + " and we’ll reply the same way.", true);
+        })
+        .then(function () {
+          send.disabled = false;
+          send.textContent = "Send request";
+        });
+    });
+  }
 
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
